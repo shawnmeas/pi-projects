@@ -15,5 +15,5 @@ WiringPi to GPIO mappings are as follows.
 | WiringPi 5   | GPIO 24  |
 | WiringPi 6   | GPIO 25  |
 | WiringPi 7   | GPIO 4   |
-| WiringPi 8   | GPIO 12  |
-| WiringPi 9   | GPIO 16  |
+| WiringPi 26  | GPIO 12  |
+| WiringPi 27  | GPIO 16  |

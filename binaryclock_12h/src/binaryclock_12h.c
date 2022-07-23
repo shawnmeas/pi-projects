@@ -8,6 +8,7 @@ Author	: Shawn Meas
 #include <stdlib.h>
 #include <signal.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 //Clean exit on SIGINT
@@ -99,11 +100,13 @@ int main()
 	struct tm *currenttime;
 	int hr, min, sec;
 	int old_hr, old_min, old_sec;
+	bool is_pm;
 
 	//Defining arrays for GPIO pin numbers (using WiringPi numbers)
 	//In reverse order to correctly show binary numbers
 	int hr_pin[4] = {3, 2, 1, 0};
 	int min_pin[6] = {27, 26, 7, 6, 5, 4};
+	int ampm_pin = 25;
 
 	//Declaring arrays for hour and minute binary values
 	int *hr_binary;
@@ -119,6 +122,7 @@ int main()
 		}
 		pinMode(min_pin[i], OUTPUT);
 	}
+	pinMode(ampm_pin, OUTPUT);
 
 	printf("Running 'binaryclock' program...\n\n");
 
@@ -128,7 +132,34 @@ int main()
 	hr = currenttime->tm_hour;
 	min = currenttime->tm_min;
 	sec = currenttime->tm_sec;
-	printf("Current time: %02d:%02d:%02d\n", hr, min, sec);
+
+	//Logic to convert 24 hour value to 12 hour value and set is_pm if > 12
+	if(hr < 12)
+	{
+		is_pm = false;
+		if(hr == 0)
+		{
+			hr = 12;
+		}
+	}
+	else if(hr >= 12)
+	{
+		is_pm = true;
+		if(hr != 12)
+		{
+			hr = hr - 12;
+		}
+	}
+
+	printf("Current time: %02d:%02d:%02d ", hr, min, sec);
+	if(is_pm == false)
+	{
+		printf("AM\n");
+	}
+	else if (is_pm == true)
+	{
+		printf("PM\n");
+	}
 	
 	//Set old values for time to current time values
 	//Used to check if time has changed
@@ -174,6 +205,33 @@ int main()
 		hr = currenttime->tm_hour;
 		min = currenttime->tm_min;
 		sec = currenttime->tm_sec;
+
+		if(hr < 12)
+		{
+			is_pm = false;
+			if(hr == 0)
+			{
+				hr = 12;
+			}
+		}
+		else if(hr >= 12)
+		{
+			is_pm = true;
+			if(hr != 12)
+			{
+				hr = hr - 12;
+			}
+		}
+
+		//Set pin to indicate PM
+		if(is_pm == false)
+		{
+			digitalWrite(ampm_pin, LOW);
+		}
+		else if(is_pm == true)
+		{
+			digitalWrite(ampm_pin, HIGH);
+		}
 		
 		//Check if any time values have changed.
 		//If second value has changed, print new time
@@ -217,7 +275,15 @@ int main()
 				old_min = min;
 			}
 			old_sec = sec;
-			printf("Current time: %02d:%02d:%02d\n", hr, min, sec);
+			printf("Current time: %02d:%02d:%02d ", hr, min, sec);
+			if(is_pm == false)
+			{
+				printf("AM\n");
+			}
+			else if (is_pm == true)
+			{
+				printf("PM\n");
+			}
 		}
 		
 
