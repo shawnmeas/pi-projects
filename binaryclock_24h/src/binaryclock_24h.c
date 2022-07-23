@@ -36,9 +36,9 @@ void sigint_handler(int sig_num)
 //Function to convert hour integer value to binary value
 int * hr_to_binary(int input)
 {
-	static int binary[4];
+	static int binary[5];
 	int remainder;
-	for(int i=3;i>=0;i--)
+	for(int i=4;i>=0;i--)
 	{
 		if(input == 0)
 		{	
@@ -102,7 +102,7 @@ int main()
 
 	//Defining arrays for GPIO pin numbers (using WiringPi numbers)
 	//In reverse order to correctly show binary numbers
-	int hr_pin[4] = {3, 2, 1, 0};
+	int hr_pin[5] = {21, 3, 2, 1, 0};
 	int min_pin[6] = {27, 26, 7, 6, 5, 4};
 
 	//Declaring arrays for hour and minute binary values
@@ -113,7 +113,7 @@ int main()
 	wiringPiSetup();
 	for(int i=0;i<6;i++)
 	{
-		if(i < 4)
+		if(i < 5)
 		{
 			pinMode(hr_pin[i], OUTPUT);
 		}
@@ -141,7 +141,7 @@ int main()
 	min_binary = min_to_binary(min);
 
 	//Set hour LEDs
-	for(int i=0;i<4;i++)
+	for(int i=0;i<5;i++)
 	{
 		if(hr_binary[i] == 1)
 		{
@@ -187,7 +187,7 @@ int main()
 					//If hour has changed, get new binary value for hour, and set LEDs
 					hr_binary = hr_to_binary(hr);
 
-					for(int i=0;i<4;i++)
+					for(int i=0;i<5;i++)
 					{
 						if(hr_binary[i] == 1)
 						{
