@@ -1,5 +1,5 @@
 /*
-Des	: Basic blink function of LED with GPIO
+Desc	: 0 to 10 LED counter with user definable interval
 Author	: Shawn Meas
 */
 

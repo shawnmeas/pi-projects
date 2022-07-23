@@ -1,5 +1,5 @@
-# binaryclock
-Binary clock for the Raspberry Pi, using the C programming language and the [WiringPi](https://github.com/WiringPi/WiringPi) library.
+# binaryclock\_24h
+Binary clock (24 hour format) for the Raspberry Pi, using the C programming language and the [WiringPi](https://github.com/WiringPi/WiringPi) library.
 
 Circuit consists of 10 LEDs and 220 ohm resistors, connected to WiringPi pins 0, 1, 2, 3, 4, 5, 6, 7, 26, and 27 (as 8 and 9 aren't properly suitable for GPIO purposes).
 
